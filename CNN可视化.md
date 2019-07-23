@@ -19,6 +19,12 @@ https://www.leiphone.com/news/201711/aNw8ZjqMuqvygzlz.html
 
 
 
+CNN可视化理解的最新综述
+
+http://m.elecfans.com/article/686276.html
+
+
+
 **CNN模型的可视化**
 
 http://www.cctime.com/html/2018-4-12/1373705.htm
