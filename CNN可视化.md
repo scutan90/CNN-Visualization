@@ -1,6 +1,10 @@
-[TOC]
+#### 
 
 #  CNN可视化
+
+[TOC]
+
+
 
     Markdown Revision 1;
     Date: 2019/07/23
@@ -8,6 +12,30 @@
     Contact: scutjy2015@163.com
 
 
+
+参考文献：胡秀. 基于卷积神经网络的图像特征可视化研究[D]. 
+
+​	对 CNN 模型的可解释性问题，也称之为深度可视化问题[35]。目前深度可视化方法主要分为两大类，一类通过前向计算直接可视化深度卷积网络每一层的卷积核以及提取的特征图，然后观察其数值变化。一个训练成功的 CNN 网络，其特征图的值会伴随网络深度的加深而越来越稀疏。
+
+​	另一类可视化方法则通过反向计算，将低维度的特征图反向传播至原图像像素空间，观察特征图被原图的哪一部分激活，从而理解特征图从原图像中学习了何种特征。经典方法有反卷积(Deconvolution)[36]和导向反向传播(Guided-backpropagation)。这两种方法能够在一定程度上“看到”CNN 模型中较深的卷积层所学习到的特征。从本质上说，反卷积和导向反向传播的基础都是反向传播，即对输入进行求导。二者唯一的区别在于反向传播过程中经过 ReLU 层时对梯度的处理策略不同。虽然借助反卷积和导向反向传播方法，能够了解 CNN 模型神秘的内部，但这些方法同时把所有能提取的特征都展示出来了，而对类别并不敏感，因此还不能解释 CNN 分类的结果。
+
+
+
+​	为了更好地理解 CNN，近几年有大量研究工作都在对 CNN 所学到的内部特征进行可视化分析。最初的可视化工作由多伦多大学的 Krizhevshy 等人在 2012 年提出的AlexNet 一文中出现[20]。在这篇开创深度学习新纪元的论文中，Krizhevshy 直接可视化了第一个卷积层的卷积核，如图 1-4 所示[20]。最早使用图片块来可视化卷积核是在 RCNN论文中出现[37]。Girshick 的工作显示了数据库中对 AlexNet 模型较高层某个通道具有较强响应的图片块。如图 1-5 所示[37]
+
+
+
+​	另一种可视化神经网络的思路是通过特征重构出图像，将重构结果与原图进行比较来分析 CNN 的每一层保留了图像的哪些特征。这种可视化思路将 CNN 提取特征的过程视为编码的过程，而对提取到的特征进行重建的过程正好是编码的逆过程，称为解码过程。2014 年，Aravindh  Mahendran 等人就提出这种通过重构特征的思想来可视化分析CNN[39]。图像理解的关键部分是图像特征表达。而人对图像特征表征的理解是有限的，因此 Mahendran 采用了一种反演的方法来分析图像特征中所含的视觉信息。之后，Mahendran 又加入自然图像先验的信息进一步通过一些可视化技术来加深人们对图像表示的理解。 
+
+​	2015 年，Yosinski[40]根据以往的可视化成果开发出了两个可视化 CNN 模型的工具。其中一个是针对已经训练好的网络，当传入一张图片或一段视频时，通过对该网络中每一层的激活值进行可视化。另一个可视化工具是通过在图像空间加正则化优化来对深度神经网络每一层提取的特征进行可视化。 
+
+​	在通过重建特征可视化 CNN 的基础上，2016 年，Alexey Dosovitskiy 等人通过建立一个上卷积神经网络（Up-Convolutional Neural Networks,UCNN），对 CNN 不同层提取的图像特征进行重建，从而可以知道输入图像中的哪些信息被保留在所提取的特征中[32]。尽管这种方法也能对全连接层进行可视化，也只是显示全连接层保留了哪些信息，而未对这些信息的相关性及重要性进行分析[41]。 
+
+​	周伯雷等人[42]提出的类别激活映射（Class Activation Mapping，CAM）可视化方法，采用 NIN 和 GoogLeNet 中所用到的全局平均池化（Global Average Pooling，GAP），将卷积神经网络最后的全连接层换成全卷积层，并将输出层的权重反向投影至卷积层特征。这一结构的改进能有效定位图像中有助于分类任务的关键区域。从定位的角度来讲，CAM 方法还能起到目标检测的作用，而且不需要给出目标的边框就能大概定位出图像中的目标位置。尽管CAM已经达到了很不错的可视化效果，但要可视化一个通用的CNN模型，就需要用 GAP 层取代最后的全连接层，这就需要修改原模型的结构，导致重新训练该模型带来大量的工作，限制了 CAM 的使用场景。2016 年，R.Selvaraju  等人[43]
+
+
+
+在 CAM 的基础上提出了 Grad-CAM。CAM 通过替换全连接层为 GAP 层，重新训练得到权重，而 Grad-CAM 另辟蹊径，用梯度的全局平均来计算每对特征图对应的权重，最后求一个加权和。Grad-CAM 与 CAM 的主要区别在于求权重的过程。
 
 
 
@@ -63,15 +91,239 @@ Visualizing and Understanding Convolutional Networks https://arxiv.org/pdf/1311.
 
 # 第二章 特征可视化
 
+## **视频识别怎样理解？其实，我们可以将其可视化！**
+
+综述：
+
+本文主要描述的是为视频识别设计的深层网络的显著图（saliency maps）。从早前的论文《卷积神经网络的可视化》（European conference on computer vision. Springer, Cham, 2014）、《可识别定位的深度特征学习》（In CVPR, 2016），以及《Grad-cam:何出此言？基于梯度定位的深度网络视觉解释》（arXiv preprint arXiv:1610.02391 (2016). In ICCV 2017）可以看出，显著图能够有助于可视化模型之所以产生给定预测的原因，发现数据中的假象，并指向一个更好的架构。
+
+
+
+#### **什么是可解释性？**
+
+  http://www.sohu.com/a/215753405_465975
+
+我们应该把可解释性看作人类模仿性（human simulatability）。如果人类可以在合适时间内采用输入数据和模型参数，经过每个计算步，作出预测，则该模型具备模仿性（Lipton 2016）。
+
+这是一个严格但权威的定义。以医院生态系统为例：给定一个模仿性模型，医生可以轻松检查模型的每一步是否违背其专业知识，甚至推断数据中的公平性和系统偏差等。这可以帮助从业者利用正向反馈循环改进模型。
+
+#### 树正则化  --斯坦福完全可解释深度神经网络：你需要用决策树搞点事
+
+其论文《Beyond Sparsity: Tree Regularization of Deep Models for Interpretability》已被 AAAI 2018 接收。
+
+
+
+很幸运，学界人士也提出了很多对深度学习的理解。以下是几个近期论文示例：
+
+  http://www.sohu.com/a/215753405_465975
+
+- Grad-Cam（Selvaraju et. al. 2017）：使用最后卷积层的梯度生成热力图，突出显示输入图像中的重要像素用于分类。
+- LIME（Ribeiro et. al. 2016）：使用稀疏线性模型（可轻松识别重要特征）逼近 DNN 的预测。
+- 特征可视化（Olah 2017）：对于带有随机噪声的图像，优化像素来激活训练的 DNN 中的特定神经元，进而可视化神经元学到的内容。
+- Loss Landscape（Li et. al. 2017）：可视化 DNN 尝试最小化的非凸损失函数，查看架构／参数如何影响损失情况。
+- 
+
+## 参考资料
+
+  
+
+- Deconvolution [Visualizing and Understanding Convolutional Networks](https://arxiv.org/abs/1311.2901)
+- Guided-backpropagation [Striving for Simplicity: The All Convolutional Net](https://arxiv.org/abs/1412.6806)
+- CAM [Learning Deep Features for Discriminative Localization](https://arxiv.org/abs/1512.04150)
+- [Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization](https://arxiv.org/abs/1610.02391)
+- [Yes, Deep Networks are great, but are they Trustworthy?](https://ramprs.github.io/2017/01/21/Grad-CAM-Making-Off-the-Shelf-Deep-Models-Transparent-through-Visual-Explanations.html)
+- [CAM的tensorflow实现](https://github.com/philipperemy/tensorflow-class-activation-mapping)
+- [Grad-CAM的tensorflow实现](https://github.com/insikk/Grad-CAM-tensorflow)
+- 
+
+## **CNN可视化概述**
+
+https://blog.csdn.net/heruili/article/details/90214280
+
+## 2.0 反卷积和导向反向传播
+
 ## 2.1 基于反卷积的特征可视化
 
+**使用反卷积（Deconvnet）可视化ＣＮＮ卷积层，查看各层学到的内容**
+
+https://blog.csdn.net/sean2100/article/details/83663212
+
+
+
 ## 2.2 基于类别激活映射的特征可视化
+
+### 2.2.1 CAM 
+
+**CAM方法获取显著图：基于pytorch的实现**https://blog.csdn.net/zsx1713366249/article/details/87902476
+
+- [CAM的tensorflow实现]https://github.com/philipperemy/tensorflow-class-activation-mapping
+- [Grad-CAM的tensorflow实现]https://github.com/insikk/Grad-CAM-tensorflow
+
+### 2.2.2 Grad-CAM
+
+凭什么相信你，我的CNN模型？
+
+http://bindog.github.io/blog/2018/02/10/model-explanation/
+
+
+
+2.2.2.1 Grad-CAM
+
+
+
+2.2.2.2 卷积神经网络可视化——Grad CAM Python实现
+
+https://blog.csdn.net/ZWX2445205419/article/details/86521829
+
+
+
+### 2.2.3 请问注意力机制中生成的类似热力图或者柱状图是如何生成的？
+
+https://www.zhihu.com/question/274926848/answer/473562723
+
+#### 2.2.3.1 GAP
+
+让我们小小地绕行一下，先介绍下**全局平均池化（global average pooling，GAP）**这一概念。为了避免全连接层的过拟合问题，**网中网（Network in Network）**提出了GAP**层**。GAP层，顾名思义，就是对整个特征映射应用平均池化，换句话说，是一种极端激进的平均池化。
+作者：论智链接：https://www.zhihu.com/question/274926848/answer/473562723来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
+#### 2.2.3.2 CAM
+
+从另一方面来说，GAP层的输出，可以认为是“简要概括”了之前卷积层的特征映射。在网中网架构中，GAP后面接softmax激活，ResNet-50中，GAP层后面接一个带softmax激活的全连接层。softmax激活是为了保证输出分类的概率之和为1，对于热图来说，我们并不需要这一约束。所以可以把softmax拿掉。拿掉softmax的全连接层，其实就是线性回归。结果发现，这样一处理，效果挺不错的：
+作者：论智链接：https://www.zhihu.com/question/274926848/answer/473562723来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
+#### 2.2.3.3 Grad-CAM
+
+但是CAM要发挥作用，前提是网络架构里面有GAP层，但并不是所有模型都配GAP层的。另外，线性回归的训练是额外的工作。为了克服CAM的这些缺陷，Selvaraju等提出了Grad-CAM。其基本思路是对应于某个分类的特征映射的权重可以表达为梯度，这样就不用额外训练线性回归（或者说线性层）。然后全局平均池化其实是一个简单的运算，并不一定需要专门使用一个网络层。
+
+作者：论智
+链接：https://www.zhihu.com/question/274926848/answer/473562723
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
+**基于局部梯度的神经网络可视化解释**
+
+https://www.jianshu.com/p/53062ee77e62
+
+
+
+#### 2.2.3.4 Grad-CAM++
+
+为了得到更好的效果（特别是在某一分类的物体在图像中不止一个的情况下），Chattopadhyay等又进一步提出了Grad-CAM++，主要的变动是在对应于某个分类的特征映射的权重表示中加入了ReLU和权重梯度
+
+## 代码
+
+GitHub上有不少Grad-CAM(++)的实现，你可以根据情况自行选择。例如：
+
+- 如果你用TensorFlow，可以看看Hive开源的[hiveml/tensorflow-grad-cam](https://link.zhihu.com/?target=https%3A//github.com/hiveml/tensorflow-grad-cam)
+- 如果你用PyTorch，可以看看[jacobgil/pytorch-grad-cam](https://link.zhihu.com/?target=https%3A//github.com/jacobgil/pytorch-grad-cam)
+
+当然，你也可以根据[Grad-CAM++论文](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1710.11063)自行实现。
+
+#### 2.2.3.5 Guided Grad-CAM(导向反向传播和Grad-CAM的结合)
+
+1）问题：虽然Grad-CAM可以很好的类别判别能力，也可以将相关区域定位出来，但是其不具备像素空间梯度可视化(比如导向反向传播和反卷积这种细粒度重要性可视化)的方法
+ 　2）解决问题：
+ 　　2.1）首先对图像使用插值法进行上采样
+ 　　2.2）然后将导向反向传播和Grad-CAM结合起来，实现可视化
+
+
+
+#### 2.2.3.6 下图是CAM、Grad-CAM、Grad-CAM++架构对比：
+
+https://blog.csdn.net/weixin_39875161/article/details/90553266
+
+
+
+### 2.2.3 LIME
+
+http://bindog.github.io/blog/2018/02/11/model-explanation-2/
+
+
+
+## 12、理解与可视化卷积神经网络**（有很多内容）
+
+### [12.1 可视化卷积神经网络学习到的东西](https://blog.csdn.net/vvcrm01/article/details/82110877#12.1 可视化卷积神经网络学习到的东西)
+
+  
+
+#### [12.1.1可视化激活和第一层权重](https://blog.csdn.net/vvcrm01/article/details/82110877#12.1.1可视化激活和第一层权重)
+
+  
+
+#### [12.1.2 找到对神经元有最大激活的图像](https://blog.csdn.net/vvcrm01/article/details/82110877#retrieving-images-that-maximally-activate-a-neuron)
+
+  
+
+#### [12.1.3 用 t-SNE 嵌入代码](https://blog.csdn.net/vvcrm01/article/details/82110877#12.1.3 用 t-SNE 嵌入代码)
+
+  
+
+#### [12.1.4 遮挡部分图像](https://blog.csdn.net/vvcrm01/article/details/82110877#12.1.4 遮挡部分图像)
+
+  
+
+#### [12.1.5 可视化数据梯度及其他文献](https://blog.csdn.net/vvcrm01/article/details/82110877#12.1.5 可视化数据梯度及其他文献)
+
+  
+
+#### [12.1.6 基于CNN代码重构原始图像](https://blog.csdn.net/vvcrm01/article/details/82110877#12.1.6 基于CNN代码重构原始图像)
+
+  
+
+#### [12.1.7 保存了多少空间信息？](https://blog.csdn.net/vvcrm01/article/details/82110877#12.1.7 保存了多少空间信息？)
+
+  
+
+#### [12.1.8 根据图像属性绘制性能](https://blog.csdn.net/vvcrm01/article/details/82110877#12.1.8 根据图像属性绘制性能)
+
+  
+
+### [12.2 玩弄 ConvNets](https://blog.csdn.net/vvcrm01/article/details/82110877#12.2 玩弄 ConvNets)
+
+  
+
+### [12.3 将ConvNets 的结果与人类标签比较](https://blog.csdn.net/vvcrm01/article/details/82110877#12.3 将ConvNets 的结果与人类标签比较)
+
+
 
 ## 2.3  用优化方法形成可视化
 
 **谷歌的新CNN特征可视化方法，构造出一个华丽繁复的新世界** 
 
 https://www.leiphone.com/news/201711/aNw8ZjqMuqvygzlz.html
+
+
+
+## 2.5 窥探黑盒-卷积神经网络的可视化**
+
+https://blog.csdn.net/shenziheng1/article/details/85058430
+
+1. ### 目前卷积深度表示的可视化/解释方法
+
+#### 中间激活态/特征图可视化。
+
+也就是对卷积神经网络的中间输出特征图进行可视化，这有助于理解卷积神经网络连续的层如何对输入的数据进行展开变化，也有注意了解卷及神经网络每个过滤器的含义。 更深入的， 笔者曾经讲中间激活态结合‘注意力机制’进行联合学习，确实显著提高了算法的精度。	
+
+#### 空间滤波器组可视化。
+
+卷积神经网络学习的实质可以简单理解为学习一系列空间滤波器组的参数。可视化滤波器组有助于理解视觉模式/视觉概念。 更深入的，笔者曾经思考过，如何才能引导dropout趋向各项同性空间滤波器。因为从视觉感知对信息的捕捉效果来看，更倾向于捕捉高频成分，诸如边缘特征、纹理等。
+
+#### 原始图像中各组分贡献热力图。
+
+我们都知道，卷积神经网络是基于感受野以及感受野再次组合进行特征提取的。但是我们需要了解图像中各个部分对于目标识别的贡献如何？这里将会介绍一种hotmap的形式，判断图像中各个成分对识别结果的贡献度概率。
+
+作者：沈子恒 
+来源：CSDN 
+原文：https://blog.csdn.net/shenziheng1/article/details/85058430 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+
+
 
 # 第三章 
 
@@ -115,6 +367,50 @@ AlexNet进行了可视化
 https://blog.csdn.net/dcxhun3/article/details/77746550
 
 
+
+### 5.11.4 常见的网络可视化方法
+
+​	Tensorflow，Pytorch等每一个主流的深度学习框架都提供了相对应的可视化模板，那有没有一种方法更加具有通用性呢？下面介绍常见的网络可视化方法：
+
+#### （1）Netron。
+
+Netron支持主流各种框架的模型结构可视化工作，github链接：https://github.com/lutzroeder/Netron 。
+
+#### （2）Netscope。
+
+Netscope在线可视化链接：http://ethereon.github.io/netscope/#/editor。
+
+#### （2）ConvNetDraw。
+
+ConvNetDraw的github链接：https://github.com/cbovar/ConvNetDraw。
+
+#### （3）Draw_convnet。
+
+Draw_convnet的github链接：https://github.com/gwding/draw_convnet。
+
+#### （4）PlotNeuralNet。
+
+PlotNeuralNet的github链接：https://github.com/HarisIqbal88/PlotNeuralNet。
+
+#### （5）NN-SVG。
+
+NN-SVG的github链接：https://github.com/zfrenchee/NN-SVG。
+
+#### （6）Python + Graphviz。
+
+针对节点较多的网络，用python编写一个简单的dot脚本生成工具（MakeNN），可以很方便的输入参数生成nn结构图。
+
+#### （7）Graphviz - dot。
+
+Graphviz的官方链接：https://www.graphviz.org/。
+
+#### （8）NetworkX。
+
+NetworkX的github链接：https://github.com/networkx。
+
+#### （9）DAFT。
+
+daft官网链接：http://daft-pgm.org/。
 
 
 
