@@ -1,6 +1,4 @@
-#### 
-
-#  CNN可视化
+**CNN可视化**
 
 [TOC]
 
@@ -142,18 +140,20 @@ https://blog.csdn.net/shenziheng1/article/details/85058430
 
 ​	从本质上说，反卷积和导向反向传播的基础都是反向传播，其实说白了就是对输入进行求导，三者唯一的区别在于反向传播过程中经过ReLU层时对梯度的不同处理策略。
 
-![](./img/decon1.png)
+![](E:/CNN-Visualization/img/decon1.png)
 
-![](./img/decon2.png)
+![](E:/CNN-Visualization/img/decon2.png)
 
-![](./img/decon3.png)
+![](E:/CNN-Visualization/img/decon3.png)
 
-![](./img/decon4.png)
+![](E:/CNN-Visualization/img/decon4.png)
 
 作者：丽宝儿 
 来源：CSDN 
 原文：https://blog.csdn.net/heruili/article/details/90214280 
 版权声明：本文为博主原创文章，转载请附上博文链接！
+
+
 
 # 第三章 基于反卷积的特征可视化
 
