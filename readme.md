@@ -13,10 +13,7 @@ Editor: Tan
 Contact: scutjy2015@163.com
 ```
 
-[Mozilla](LICENSE) 
-
-[CNN可视化]（https://github.com/scutan90/CNN-Visualization/blob/master/CNN%E5%8F%AF%E8%A7%86%E5%8C%96）
-
+[CNN可视化](https://github.com/scutan90/CNN-Visualization/blob/master/CNN%E5%8F%AF%E8%A7%86%E5%8C%96.md) 
 
 
 # 第一章 卷积神经网络
