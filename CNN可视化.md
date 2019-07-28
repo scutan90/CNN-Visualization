@@ -140,13 +140,13 @@ https://blog.csdn.net/shenziheng1/article/details/85058430
 
 ​	从本质上说，反卷积和导向反向传播的基础都是反向传播，其实说白了就是对输入进行求导，三者唯一的区别在于反向传播过程中经过ReLU层时对梯度的不同处理策略。
 
-![](E:/CNN-Visualization/img/decon1.png)
+![](./img/decon1.png)
 
-![](E:/CNN-Visualization/img/decon2.png)
+![](./img/decon2.png)
 
-![](E:/CNN-Visualization/img/decon3.png)
+![](./img/decon3.png)
 
-![](E:/CNN-Visualization/img/decon4.png)
+![](./img/decon4.png)
 
 作者：丽宝儿 
 来源：CSDN 
