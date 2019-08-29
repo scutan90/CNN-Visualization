@@ -77,6 +77,18 @@ Visualizing and Understanding Convolutional Networks https://arxiv.org/pdf/1311.
 
 # 第一章 卷积神经网络
 
+https://www.toutiao.com/a6725276071358366215/?tt_from=weixin&utm_campaign=client_share&wxshare_count=1&timestamp=1566823385&app=news_article&utm_source=weixin&utm_medium=toutiao_android&req_id=20190826204304110249203143263D4EED&group_id=6725276071358366215
+
+# 「深度学习系列」CNN模型的可视化
+
+这个网站有cvpr今年的可解释性的文献集合，还挺多的http://openaccess.thecvf.com/CVPR2019_workshops/CVPR2019_Explainable_AI.py、
+
+
+
+## 一个很好的可视化网站：http://shixialiu.com/publications/cnnvis/demo/
+
+
+
 ## 1.1 网络结构
 
 ## 1.2 训练过程
